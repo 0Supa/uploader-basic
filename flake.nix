@@ -28,17 +28,17 @@
           users.users.${user} = {
             isSystemUser = true;
             home = "/var/lib/${user}";
+            createHome = true;
             group = "www";
           };
 
           systemd.services.${pname} = {
-            description = "Simple Go HTTP server";
             after = [ "network.target" ];
             wantedBy = [ "multi-user.target" ];
             serviceConfig = {
               ExecStart = "${goServer}/bin/${pname}";
               Restart = "always";
-              User = user;
+              User = "${user}";
               WorkingDirectory = "/var/lib/${user}";
             };
           };
